@@ -1,0 +1,16 @@
+version: '3'
+services:
+  api:
+    container_name: user-manager
+    image: user-manager
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+    environment:
+      - NODE_ENV=development
+      # https://github.com/paulmillr/chokidar
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - "9501:9501"
