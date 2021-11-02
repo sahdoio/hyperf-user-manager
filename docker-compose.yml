@@ -1,4 +1,11 @@
 version: '3'
+
+networks:
+  user-manager-network:
+    driver: bridge
+    ipam:
+      driver: default
+
 services:
   api:
     container_name: user-manager
@@ -14,3 +21,13 @@ services:
       - CHOKIDAR_USEPOLLING=true
     ports:
       - "9501:9501"
+    networks:
+      - user-manager-network
+  
+  redis:
+    container_name: user-manager-redis
+    image: redis:6.2.6
+    ports:
+      - 6379:6379
+    networks:
+      - user-manager-network

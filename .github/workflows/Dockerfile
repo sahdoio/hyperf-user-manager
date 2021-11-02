@@ -5,8 +5,7 @@
 # @contact  group@hyperf.io
 # @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
 
-FROM hyperf/hyperf:8.0-alpine-v3.13-swoole
-
+FROM hyperf/hyperf:8.0-alpine-v3.12-swoole
 LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT" app.name="Hyperf"
 
 ##
@@ -41,15 +40,15 @@ RUN set -ex \
     && rm -rf /var/cache/apk/* /tmp/* /usr/share/man \
     && echo -e "\033[42;37m Build Completed :).\033[0m\n"
 
-WORKDIR /app
+WORKDIR /opt/www
 
 # Composer Cache
 # COPY ./composer.* /opt/www/
 # RUN composer install --no-dev --no-scripts
 
-COPY . /app
-RUN composer install --no-dev -o && php bin/hyperf.php
+COPY . /opt/www
+RUN print "\n" | composer install -o && php bin/hyperf.php
 
 EXPOSE 9501
 
-ENTRYPOINT ["php", "/app/bin/hyperf.php", "start"]
+ENTRYPOINT ["php", "/opt/www/bin/hyperf.php", "start"]
